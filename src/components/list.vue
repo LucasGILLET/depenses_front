@@ -1,18 +1,27 @@
 <template>
 	<div>
-		<div class="flex flex-col bg-slate-400 w-full">
-			<div class="mx-40 my-4 gap-4">
-				<div class="flex text-3xl font-semibold">This is my list view</div>
+		<div class="flex flex-col bg-slate-400 w-full min-h-screen">
+			<div class="mx-4 sm:mx-8 md:mx-16 lg:mx-40 my-4 gap-4">
+				<div class="flex text-3xl font-semibold justify-center">Liste de mes dépenses</div>
 			</div>
-			<div class="mx-40 my-4 gap-4">
-				<ul>
-					<li v-for="(item, index) in values" :key="index" class="mb-4 p-4 bg-white rounded shadow">
-						<h3 class="text-xl font-bold">{{ item.name }}</h3>
-						<p class="text-gray-700">Value: {{ item.value }}</p>
-						<p class="text-gray-700">Description: {{ item.description }}</p>
-						<p class="text-gray-700">Tags: {{ item.tags.join(", ") }}</p>
-						<p class="text-gray-700">Date: {{ item.date.toLocaleDateString() }}</p>
-						<button @click="removeItem(item)" class="mt-2 px-4 py-2 bg-red-500 text-white rounded">Remove</button>
+			<div class="mx-4 sm:mx-8 md:mx-16 lg:mx-40 my-4 gap-4">
+				<ul class="space-y-4">
+					<li
+						v-for="(item, index) in listStore.myList"
+						:key="index"
+						class="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-all"
+					>
+						<h3 class="text-xl font-bold mb-2">{{ item.name }}</h3>
+						<p class="text-gray-700 mb-1">Value: {{ item.value }} €</p>
+						<p class="text-gray-700 mb-1">Description: {{ item.description }}</p>
+						<p class="text-gray-700 mb-1">Catégorie: {{ item.category }}</p>
+						<p class="text-gray-700 mb-1">Date: {{ new Date(item.date).toLocaleDateString() }}</p>
+						<button
+							@click="removeItem(item)"
+							class="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-all"
+						>
+							Remove
+						</button>
 					</li>
 				</ul>
 			</div>
@@ -21,20 +30,11 @@
 </template>
 
 <script setup>
-	import { ref, onMounted } from "vue";
 	import { useListStore } from "../stores/list";
 
 	const listStore = useListStore();
-	const values = ref([]);
-
-	onMounted(() => {
-		listStore.fetchList();
-		values.value = listStore.myList;
-		console.log(values.value);
-	});
 
 	const removeItem = async (item) => {
 		const newList = await listStore.removeFromList(item);
-		values.value = newList;
 	};
 </script>

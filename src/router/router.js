@@ -1,24 +1,24 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import test from "../components/test.vue";
+import DefaultLayout from "../components/Layouts/DefaultLayout.vue";
 import HomeView from "../views/Home.vue";
-import TestAddView from "../views/TestAdd.vue";
+import AddView from "../views/Add.vue";
 
 const routes = [
 	{
 		path: "/",
-		component: test, // Utilisation du layout
+		component: DefaultLayout, // Utilisation du layout
 		meta: { isGuest: true },
 		children: [
 			{
-				path: "test",
-				name: "test",
+				path: "",
+				name: "Home",
 				component: HomeView // Composant pour la route '/'
 			},
 			{
-				path: "test/add",
-				name: "testAdd",
-				component: TestAddView // Composant pour la route '/'
+				path: "add",
+				name: "Add",
+				component: AddView // Composant pour la route '/add'
 			}
 		]
 	}
